@@ -1,0 +1,9 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../vhdl/neuron.vhd" \
+"../../../../../vhdl/spiking_nn.vhd" \
+"../../../../../vhdl/synapse.vhd" \
+"../../../../../vhdl/spiking_nn_tb.vhd" \
+
+# Do not sort compile order
+nosort

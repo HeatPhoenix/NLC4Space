@@ -1,0 +1,10 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../../vhdl/conv2d.vhd" \
+"../../../../vivado_project.srcs/sources_1/new/conv_buffer.vhd" \
+"../../../../../vhdl/pixbuf.vhd" \
+"../../../../vivado_project.srcs/sources_1/new/rgb_combiner.vhd" \
+"../../../../../vhdl/rgb_combiner_tb.vhd" \
+
+# Do not sort compile order
+nosort
