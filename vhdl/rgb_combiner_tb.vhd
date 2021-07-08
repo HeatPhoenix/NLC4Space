@@ -1,5 +1,23 @@
--- (c) 2020 B. Koch
--- This code is licensed under MIT license (see LICENSE.txt for details)
+----------------------------------------------------------------------------------
+-- Company: TU Delft, ESA
+-- Engineer: Zacharia Rudge
+-- 
+-- Create Date: 07/06/2021 01:37:46 AM
+-- Design Name: 
+-- Module Name: rgb_combiner_tb - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: Testbench for testing 3x conv units (fed with nonsense data) 
+-- combining their information into one rgb combiner unit.
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments:
+-- 
+----------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

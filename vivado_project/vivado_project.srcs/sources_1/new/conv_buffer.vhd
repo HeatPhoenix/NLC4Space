@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Company: 
+-- Company: TU Delft, ESA
 -- Engineer: Zacharia Rudge
 -- 
 -- Create Date: 05/18/2021 10:23:59 PM
@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: Buffers convolution results so that (when complete) the results can be used in the next layer, or combined.
 -- 
 -- Dependencies: 
 -- 

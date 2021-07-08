@@ -2,3 +2,6 @@ Running: xsim.dir/rgb_combiner_tb_behav/xsimk.exe -simmode gui -wdb rgb_combiner
 Design successfully loaded
 Design Loading Memory Usage: 9396 KB (Peak: 9396 KB)
 Design Loading CPU Usage: 46 ms
+Simulation completed
+Simulation Memory Usage: 13656 KB (Peak: 13656 KB)
+Simulation CPU Usage: 749 ms

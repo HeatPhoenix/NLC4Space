@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------------------
--- Company: 
+-- Company: TU Delft, ESA
 -- Engineer: Zacharia Rudge
 -- 
 -- Create Date: 07/06/2021 01:37:46 AM
@@ -8,7 +8,8 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: Accepts three buffers, which are then combined into one buffer for the next layer.
+-- The operation performed on the data is currently addition.
 -- 
 -- Dependencies: 
 -- 
