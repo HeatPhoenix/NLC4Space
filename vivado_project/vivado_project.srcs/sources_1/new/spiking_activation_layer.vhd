@@ -53,13 +53,11 @@ entity spiking_activation_layer is
            output_en : in STD_LOGIC := '0';
            output_done : out STD_LOGIC := '0';
             
-           conv_valid_out : in STD_LOGIC := '0';
-           conv_data_out : in STD_LOGIC_VECTOR (2*NUM_BITS_PIXEL-1 downto 0); 
+           input_valid_out : in STD_LOGIC := '0'; -- previous layer's output, our input
+           input_data_out : in STD_LOGIC_VECTOR (2*NUM_BITS_PIXEL-1 downto 0); 
            
            spiking_data_out : out STD_LOGIC_VECTOR(2*NUM_BITS_PIXEL-1 downto 0) := (others => '0');
-           spiking_valid_out : out STD_LOGIC := '0';--aka buffer has been filled
-           
-           spiking_layer_done : out STD_LOGIC := '0'; -- complete
+           spiking_valid_out : out STD_LOGIC := '0';--aka buffer has been filled 
            
            img_width       : in std_logic_vector(NUM_BITS_ADDR-1 downto 0);
            img_height      : in std_logic_vector(NUM_BITS_ADDR-1 downto 0)         
@@ -90,7 +88,7 @@ output_done <= output_done_internal;
     if rst = '1' then
         
     elsif rising_edge(clk) then
-        if (conv_valid_out = '1') and (input_en = '1') and (input_done_internal = '0') then -- read output for 1 pixel in the image
+        if (input_valid_out = '1') and (input_en = '1') and (input_done_internal = '0') then -- read output for 1 pixel in the image
             x_pos_in <= x_pos_in + 1;
             
             if (x_pos_in > img_width-2) then -- should be img_width
@@ -112,8 +110,12 @@ process --input process falling clock
 begin
     loop
         wait until falling_edge(clk);
-            spike_buffer(to_integer(unsigned(x_pos_in)), to_integer(unsigned(y_pos_in))) <= conv_data_out * timesteps_to_calculate; --update one entry
-            --multiplication of timesteps (doing it with shifts would be great)
+            if timesteps_to_calculate = "01" then -- no multiplication
+                spike_buffer(to_integer(unsigned(x_pos_in)), to_integer(unsigned(y_pos_in))) <= input_data_out;
+            else
+                spike_buffer(to_integer(unsigned(x_pos_in)), to_integer(unsigned(y_pos_in))) <= input_data_out * timesteps_to_calculate; --update one entry
+                --multiplication of timesteps (doing it with shifts would be great)
+            end if;
     end loop;
 end process;
 

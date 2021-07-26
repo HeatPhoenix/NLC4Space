@@ -2,16 +2,18 @@
 -- Company: TU Delft, ESA
 -- Engineer: Zacharia Rudge
 -- 
--- Create Date: 07/06/2021 01:37:46 AM
+-- Create Date: 07/26/2021 02:37:46 PM
 -- Design Name: 
--- Module Name: rgb_combiner_tb - Behavioral
+-- Module Name: spike_layer_tb - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: Testbench for testing 3x conv units (fed with nonsense data) 
--- combining their information into one rgb combiner unit.
--- 
--- Dependencies: 
+-- Description: Testbench for testing the spiking activation layer
+-- which follows the RGB Combiner. Spiking activation layer currently only
+-- loads the previous layer's data and then multiplies it by the number of timesteps 
+-- that we need calculated
+--
+-- Dependencies:  
 -- 
 -- Revision:
 -- Revision 0.01 - File Created
@@ -26,10 +28,10 @@ use IEEE.NUMERIC_STD.ALL;
 library std;
 use std.textio.all;
 
-entity rgb_combiner_tb is
-end rgb_combiner_tb;
+entity spike_layer_tb is
+end spike_layer_tb;
 
-architecture Behavioral of rgb_combiner_tb is
+architecture Behavioral of spike_layer_tb is
     constant IMG_WIDTH      : natural := 64;
     constant IMG_HEIGHT     : natural := 64;
     constant NUM_BITS_PIXEL : natural := 8;    
@@ -39,7 +41,10 @@ architecture Behavioral of rgb_combiner_tb is
     signal clk              : std_logic;
     signal rst              : std_logic;
     
-    --convolution signals (general
+    --top layer signals
+    signal current_timestep : std_logic_vector(7 downto 0) := "00000000";
+    
+    --convolution signals (general)
     signal pix_data_in      : std_logic_vector(7 downto 0);
     signal pix_valid_in     : std_logic;
     
@@ -131,7 +136,22 @@ architecture Behavioral of rgb_combiner_tb is
     signal combiner_done_out : std_logic;
     signal combiner_done_in : std_logic;
     
-
+    --spiking activation layer signals
+    signal timesteps_in : std_logic_vector(1 downto 0) := "01"; -- 1 step
+    
+    signal input_en_spiking : std_logic;
+    signal input_done_spiking : std_logic;
+    
+    signal output_en_spiking : std_logic;
+    signal output_done_spiking : std_logic;
+    
+    signal input_valid_out_spiking : std_logic;
+    signal input_data_out_spiking : std_logic_vector(2*NUM_BITS_PIXEL-1 downto 0);
+    
+    signal spiking_data_out : std_logic_vector(2*NUM_BITS_PIXEL-1 downto 0);
+    signal spiking_valid_out : std_logic;
+    
+    
     component conv2d is
         generic (
             NUM_BITS_PIXEL  : natural := 8;
@@ -212,6 +232,35 @@ architecture Behavioral of rgb_combiner_tb is
            img_width       : in std_logic_vector(NUM_BITS_ADDR-1 downto 0);
            img_height      : in std_logic_vector(NUM_BITS_ADDR-1 downto 0)
            );      
+    end component;
+    
+    component spiking_activation_layer is
+        generic (
+            NUM_BITS_PIXEL  : natural := 8; -- 24 total = R + G + B (8-bits each)  
+            NUM_BITS_ADDR   : natural := 8;           
+            MAX_IMG_WIDTH   : natural := 64;
+            MAX_IMG_HEIGHT   : natural := 64
+            );
+    Port ( clk          : in STD_LOGIC;
+           rst          : in std_logic;
+           
+           timesteps_to_calculate : in STD_LOGIC_VECTOR (1 downto 0); -- max 4 at once, 
+           
+           input_en : in STD_LOGIC := '0';
+           input_done : out STD_LOGIC := '0';
+           
+           output_en : in STD_LOGIC := '0';
+           output_done : out STD_LOGIC := '0';
+            
+           input_valid_out : in STD_LOGIC := '0';
+           input_data_out : in STD_LOGIC_VECTOR (2*NUM_BITS_PIXEL-1 downto 0); 
+           
+           spiking_data_out : out STD_LOGIC_VECTOR(2*NUM_BITS_PIXEL-1 downto 0) := (others => '0');
+           spiking_valid_out : out STD_LOGIC := '0';--aka buffer has been filled
+           
+           img_width       : in std_logic_vector(NUM_BITS_ADDR-1 downto 0);
+           img_height      : in std_logic_vector(NUM_BITS_ADDR-1 downto 0)         
+           );   
     end component;
 
     
@@ -404,23 +453,57 @@ generic map (
 Port map (
 	clk                     => clk,
     rst                     => rst,
+    
     r_data                  => r_data_in,
     r_enable                => r_enable_in,
+    
     g_data                  => g_data_in,
     g_enable                => g_enable_in,
+    
     b_data                  => b_data_in,
     b_enable                => b_enable_in,
+    
     input_mode_en           => input_mode_en,
     output_mode_en          => output_mode_en,
     combiner_data           => combiner_data_out,
     combiner_valid_out      => combiner_valid_out,
     
-    combiner_output_done           => combiner_done_out,
-    combiner_input_done           => combiner_done_in,
+    combiner_output_done    => combiner_done_out,
+    combiner_input_done     => combiner_done_in,
     
-    img_width => img_width_in,
-    img_height => img_height_in
+    img_width               => img_width_in,
+    img_height              => img_height_in
 );
+
+-- Spiking Activation Layer
+sut: spiking_activation_layer
+generic map(
+            NUM_BITS_PIXEL  => 8, -- 24 total = R + G + B (8-bits each)  
+            NUM_BITS_ADDR   => 8,         
+            MAX_IMG_WIDTH   => 128,
+            MAX_IMG_HEIGHT   => 128
+            )
+    Port map( 
+	        clk                     => clk,
+            rst                     => rst,
+           
+            timesteps_to_calculate => timesteps_in, -- max 4 at once, 
+           
+            input_en => input_en_spiking,
+            input_done => input_done_spiking,
+           
+            output_en => output_en_spiking,
+            output_done => output_done_spiking,
+            
+            input_valid_out => input_valid_out_spiking,
+            input_data_out => input_data_out_spiking,
+           
+            spiking_data_out => spiking_data_out,
+            spiking_valid_out => spiking_valid_out,
+           
+            img_width       => img_width_in,
+            img_height      => img_height_in         
+            );
 
 
 
@@ -442,9 +525,12 @@ b_enable_in <= blue_buffer_valid_out_intermediate;
 blue_buffer_input_en <= buffer_input_en;
 blue_buffer_output_en <= buffer_output_en;
 
+--combiner to spiking activation
+input_data_out_spiking <= combiner_data_out;
+input_valid_out_spiking <= combiner_valid_out;
+timesteps_in <= "01";
 
-g_enable_in <= '0'; -- what do these do again??? oops
-b_enable_in <= '0';
+
 
 clk_proc: process
 begin
@@ -518,15 +604,22 @@ begin
 	
 	input_mode_en <= '1'; -- enable rgb combiner
 	
-	while combiner_done_out = '0' loop
+	while combiner_done_in = '0' loop
             wait until rising_edge(clk);	
 	end loop;
 
-    --combiner done, activate spiking activation layer
+    --combiner input done, activate spiking activation layer
+    input_mode_en <= '0';
+    output_mode_en <= '1'; 
     
+    input_en_spiking <= '1';
+    
+    while input_done_spiking = '0' loop
+            wait until rising_edge(clk);	
+	end loop;
     
 
-	wait for 100 us;
+	wait for 200 us;
     --assert FALSE report "Done writing packet data." severity FAILURE;
 end process;
 

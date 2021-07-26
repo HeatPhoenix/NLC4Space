@@ -1,0 +1,4 @@
+Running: xsim.dir/spike_layer_tb_behav/xsimk.exe -simmode gui -wdb spike_layer_tb_behav.wdb -simrunnum 0 -socket 57956
+Design successfully loaded
+Design Loading Memory Usage: 10132 KB (Peak: 10132 KB)
+Design Loading CPU Usage: 15 ms

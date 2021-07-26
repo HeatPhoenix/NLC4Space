@@ -53,7 +53,8 @@ entity rgb_combiner is
            output_mode_en : in STD_LOGIC := '0';
            combiner_data : out STD_LOGIC_VECTOR (2*NUM_BITS_PIXEL-1  downto 0) := (others => '0');
            combiner_valid_out : out STD_LOGIC := '0';
-           combiner_done : out STD_LOGIC := '0';
+           combiner_output_done : out STD_LOGIC := '0';
+           combiner_input_done : out STD_LOGIC := '0';
            
            img_width       : in std_logic_vector(NUM_BITS_ADDR-1 downto 0);
            img_height      : in std_logic_vector(NUM_BITS_ADDR-1 downto 0)
@@ -83,7 +84,8 @@ signal dummy_output_cycle_flag : std_logic := '0';
 
 begin
 
-combiner_done <= output_done_internal;
+combiner_output_done <= output_done_internal;
+combiner_input_done <= input_done_internal;
 intermediate_r_data <= r_data;
 intermediate_g_data <= g_data;
 intermediate_b_data <= b_data;

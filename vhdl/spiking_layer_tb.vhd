@@ -4,14 +4,14 @@
 -- 
 -- Create Date: 07/06/2021 01:37:46 AM
 -- Design Name: 
--- Module Name: rgb_combiner_tb - Behavioral
+-- Module Name: spike_layer_tb - Behavioral
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
 -- Description: Testbench for testing 3x conv units (fed with nonsense data) 
 -- combining their information into one rgb combiner unit.
 -- 
--- Dependencies: 
+-- Dependencies:  
 -- 
 -- Revision:
 -- Revision 0.01 - File Created
@@ -26,10 +26,10 @@ use IEEE.NUMERIC_STD.ALL;
 library std;
 use std.textio.all;
 
-entity rgb_combiner_tb is
-end rgb_combiner_tb;
+entity spike_layer_tb is
+end spike_layer_tb;
 
-architecture Behavioral of rgb_combiner_tb is
+architecture Behavioral of spike_layer_tb is
     constant IMG_WIDTH      : natural := 64;
     constant IMG_HEIGHT     : natural := 64;
     constant NUM_BITS_PIXEL : natural := 8;    
