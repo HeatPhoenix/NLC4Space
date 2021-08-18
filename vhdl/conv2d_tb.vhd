@@ -1,6 +1,23 @@
--- (c) 2020 B. Koch
--- This code is licensed under MIT license (see LICENSE.txt for details)
-
+----------------------------------------------------------------------------------
+-- Company: TU Delft, ESA
+-- Engineer: B. Koch, Zacharia Rudge
+-- 
+-- Create Date: 
+-- Design Name: 
+-- Module Name: conv2d - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: Conv2d unit, adapted from B. Koch's work from https://github.com/bkarl/conv2d-vhdl
+-- Testbench which tests the conv2d unit, this file was adapted to serve as a testbench for other parts as well
+--
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments: This code is licensed under MIT license (see LICENSE.txt for details)
+-- N.B.: Still needs to be changed to sfixed format for calculations *and* 4x4 kernels
+----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;

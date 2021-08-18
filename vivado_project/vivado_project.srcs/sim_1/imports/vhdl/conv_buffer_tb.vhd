@@ -1,5 +1,23 @@
--- (c) 2020 B. Koch
--- This code is licensed under MIT license (see LICENSE.txt for details)
+----------------------------------------------------------------------------------
+-- Company: TU Delft, ESA
+-- Engineer: B. Koch, Zacharia Rudge
+-- 
+-- Create Date: 
+-- Design Name: 
+-- Module Name: conv2d - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: Testbench for the buffers for each conv2d unit when done on R, G or B channels.
+-- Adapted from conv2d_tb.
+--
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments: This code is licensed under MIT license (see LICENSE.txt for details)
+-- N.B.: Still needs to be changed to sfixed format for calculations *and* 4x4 kernels
+----------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;

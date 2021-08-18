@@ -1,3 +1,26 @@
+----------------------------------------------------------------------------------
+-- Company: TU Delft, ESA
+-- Engineer: wubinyi, Zacharia Rudge
+-- 
+-- Create Date: 05/18/2021 10:23:59 PM
+-- Design Name: 
+-- Module Name: conv_buffer - Behavioral
+-- Project Name: 
+-- Target Devices: 
+-- Tool Versions: 
+-- Description: Based on an SNN model implementation in VHDL by wubinyi
+-- https://github.com/wubinyi/Spiking-Neural-Network. Synapse testbench.
+-- 
+-- Dependencies: 
+-- 
+-- Revision:
+-- Revision 0.01 - File Created
+-- Additional Comments: MIT Licensed
+-- N.B.: Still lots of work to be done w.r.t. the contents of this stuff, have to
+-- scrap stuff that's unnecessary for our purposes and make everything use
+-- sfixed among other things
+----------------------------------------------------------------------------------
+
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;

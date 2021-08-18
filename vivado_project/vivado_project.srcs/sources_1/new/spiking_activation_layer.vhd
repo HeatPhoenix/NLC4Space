@@ -16,7 +16,7 @@
 -- 
 -- Revision:
 -- Revision 0.01 - File Created
--- Additional Comments:
+-- Additional Comments: State is functional (but very simple)
 -- 
 ----------------------------------------------------------------------------------
 
@@ -114,7 +114,7 @@ begin
                 spike_buffer(to_integer(unsigned(x_pos_in)), to_integer(unsigned(y_pos_in))) <= input_data_out;
             else
                 spike_buffer(to_integer(unsigned(x_pos_in)), to_integer(unsigned(y_pos_in))) <= input_data_out * timesteps_to_calculate; --update one entry
-                --multiplication of timesteps (doing it with shifts would be great)
+                --multiplication of timesteps (doing it with shifts would be great (aka only allowing power of 2 timesteps))
             end if;
     end loop;
 end process;

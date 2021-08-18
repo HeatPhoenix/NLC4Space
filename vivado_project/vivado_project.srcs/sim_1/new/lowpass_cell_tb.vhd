@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: TU Delft, ESA
+-- Engineer: Zacharia Rudge
 -- 
 -- Create Date: 07/27/2021 10:34:51 PM
 -- Design Name: 
@@ -8,13 +8,15 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
--- 
+-- Description: Tests the lowpass cell by enabling it and inputting a signal for
+-- an arbitrary amount of time. Verification can be done by inspecting the output
+-- signal from the lowpass cell.
+--
 -- Dependencies: 
 -- 
 -- Revision:
 -- Revision 0.01 - File Created
--- Additional Comments:
+-- Additional Comments: State is functional
 -- 
 ----------------------------------------------------------------------------------
 
@@ -25,15 +27,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 library ieee_proposed;
 use ieee_proposed.fixed_pkg.all;
-
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---use IEEE.NUMERIC_STD.ALL;
-
--- Uncomment the following library declaration if instantiating
--- any Xilinx leaf cells in this code.
---library UNISIM;
---use UNISIM.VComponents.all;
 
 entity lowpass_cell_tb is
 --  Port ( );
@@ -90,12 +83,10 @@ begin
     input <= to_sfixed(1.5, 2*NUM_BITS_PIXEL-1, -4);
     wait for 20 ns;
     input <= to_sfixed(1.75, 2*NUM_BITS_PIXEL-1, -4);
-    --lowpass_enable <= '0';
     wait for 20 ns;
     input <= to_sfixed(0, 2*NUM_BITS_PIXEL-1, -4);
-    --lowpass_enable <= '1';
     wait for 100 ns;
-    --lowpass_enable <= '0';
+    lowpass_enable <= '0';
 end process;
 
 end Behavioral;

@@ -9,7 +9,7 @@
 -- Target Devices: 
 -- Tool Versions: 
 -- Description: Testbench for testing 3x conv units (fed with nonsense data) 
--- combining their information into one rgb combiner unit.
+-- combining their information into one rgb combiner unit. Adapted from conv2d_tb.
 -- 
 -- Dependencies: 
 -- 
