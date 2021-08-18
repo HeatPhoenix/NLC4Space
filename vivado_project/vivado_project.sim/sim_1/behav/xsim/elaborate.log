@@ -1,6 +1,6 @@
 Vivado Simulator 2020.2
 Copyright 1986-1999, 2001-2020 Xilinx, Inc. All Rights Reserved.
-Running: F:/Xilinx/Vivado/2020.2/bin/unwrapped/win64.o/xelab.exe -wto 73153b853cf641498b49d3879c06d867 --incr --debug typical --relax --mt 2 -L xil_defaultlib -L secureip --snapshot spike_layer_tb_behav xil_defaultlib.spike_layer_tb -log elaborate.log 
+Running: F:/Xilinx/Vivado/2020.2/bin/unwrapped/win64.o/xelab.exe -wto 73153b853cf641498b49d3879c06d867 --incr --debug typical --relax --mt 2 -L ieee_proposed -L work -L secureip --snapshot lowpass_cell_tb_behav work.lowpass_cell_tb -log elaborate.log 
 Using 2 slave threads.
 Starting static elaboration
 Completed static elaboration
@@ -11,12 +11,9 @@ Compiling package std.standard
 Compiling package std.textio
 Compiling package ieee.std_logic_1164
 Compiling package ieee.numeric_std
-Compiling package ieee.std_logic_arith
-Compiling package ieee.std_logic_unsigned
-Compiling architecture behavioral of entity xil_defaultlib.conv_buffer [\conv_buffer(max_img_width=128,m...]
-Compiling architecture behavioral of entity xil_defaultlib.pixbuf [\pixbuf(max_img_width=128,max_im...]
-Compiling architecture behavioral of entity xil_defaultlib.conv2d [\conv2d(max_img_width=128,max_im...]
-Compiling architecture behavioral of entity xil_defaultlib.rgb_combiner [\rgb_combiner(max_img_width=128,...]
-Compiling architecture behavioral of entity xil_defaultlib.spiking_activation_layer [\spiking_activation_layer(max_im...]
-Compiling architecture behavioral of entity xil_defaultlib.spike_layer_tb
-Built simulation snapshot spike_layer_tb_behav
+Compiling package ieee_proposed.fixed_pkg
+Compiling package ieee.math_real
+Compiling package ieee.std_logic_textio
+Compiling architecture behavioral of entity work.lowpass_cell [\lowpass_cell(max_img_width=128,...]
+Compiling architecture behavioral of entity work.lowpass_cell_tb
+Built simulation snapshot lowpass_cell_tb_behav

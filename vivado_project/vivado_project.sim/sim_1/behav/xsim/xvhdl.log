@@ -1,2 +1,4 @@
-INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.srcs/sim_1/imports/vhdl/spiking_layer_tb.vhd" into library xil_defaultlib
-INFO: [VRFC 10-3107] analyzing entity 'spike_layer_tb'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.srcs/sources_1/new/lowpass_cell.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'lowpass_cell'
+INFO: [VRFC 10-163] Analyzing VHDL file "C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.srcs/sim_1/new/lowpass_cell_tb.vhd" into library work
+INFO: [VRFC 10-3107] analyzing entity 'lowpass_cell_tb'

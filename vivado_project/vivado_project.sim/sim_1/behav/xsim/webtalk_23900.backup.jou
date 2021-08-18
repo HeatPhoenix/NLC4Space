@@ -2,11 +2,11 @@
 # Webtalk v2020.2 (64-bit)
 # SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
 # IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
-# Start of session at: Mon Jul 26 15:05:55 2021
-# Process ID: 57596
+# Start of session at: Wed Jul 28 14:28:57 2021
+# Process ID: 23900
 # Current directory: C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim
-# Command line: wbtcv.exe -mode batch -source C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim/xsim.dir/spike_layer_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+# Command line: wbtcv.exe -mode batch -source C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim/xsim.dir/lowpass_cell_tb_behav/webtalk/xsim_webtalk.tcl -notrace
 # Log file: C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim/webtalk.log
 # Journal file: C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim\webtalk.jou
 #-----------------------------------------------------------
-source C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim/xsim.dir/spike_layer_tb_behav/webtalk/xsim_webtalk.tcl -notrace
+source C:/Users/Zacharia/NLC4Space/vivado_project/vivado_project.sim/sim_1/behav/xsim/xsim.dir/lowpass_cell_tb_behav/webtalk/xsim_webtalk.tcl -notrace

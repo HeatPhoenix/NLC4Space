@@ -1,0 +1,4 @@
+Running: xsim.dir/lowpass_cell_tb_behav/xsimk.exe -simmode gui -wdb lowpass_cell_tb_behav.wdb -simrunnum 0 -socket 64700
+Design successfully loaded
+Design Loading Memory Usage: 5384 KB (Peak: 5384 KB)
+Design Loading CPU Usage: 30 ms

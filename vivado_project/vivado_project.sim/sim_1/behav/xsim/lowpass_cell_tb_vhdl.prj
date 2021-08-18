@@ -1,0 +1,10 @@
+# compile vhdl design source files
+vhdl ieee_proposed  \
+"../../../../vivado_project.srcs/sources_1/imports/data/fixed_pkg_2008.vhd" \
+
+vhdl work  \
+"../../../../vivado_project.srcs/sources_1/new/lowpass_cell.vhd" \
+"../../../../vivado_project.srcs/sim_1/new/lowpass_cell_tb.vhd" \
+
+# Do not sort compile order
+nosort
