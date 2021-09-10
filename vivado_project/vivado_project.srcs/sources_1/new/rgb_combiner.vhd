@@ -83,8 +83,12 @@ intermediate_b_data <= b_data;
 
 process --input process
 begin
-    loop
-        wait until rising_edge(clk);
+    if rst = '1' then
+        result_buffer <= (others => (others  => (others => '0')));
+        intermediate_data <= (others => '0');
+        input_done_internal <= '0';
+        output_done_internal <= '0';
+    elsif rising_edge(clk) then
         if (input_mode_en = '1') and (input_done_internal = '0') then -- read output for 1 pixel in the image
             
             if (dummy_output_cycle_flag = '1') then
@@ -109,7 +113,7 @@ begin
             intermediate_data <= std_logic_vector(unsigned(intermediate_r_data) + unsigned(intermediate_g_data) + unsigned(intermediate_b_data));    --for simulation purposes only
 
         end if;
-    end loop;
+    end if;
 end process;
 
 

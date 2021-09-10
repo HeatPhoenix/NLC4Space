@@ -86,7 +86,9 @@ output_done <= output_done_internal;
  process (clk, rst) --input process
  begin
     if rst = '1' then
-        
+        spike_buffer <= (others => (others  => (others => '0')));
+        input_done_internal <= '0';
+        output_done_internal <= '0';        
     elsif rising_edge(clk) then
         if (input_valid_out = '1') and (input_en = '1') and (input_done_internal = '0') then -- read output for 1 pixel in the image
             x_pos_in <= x_pos_in + 1;
