@@ -28,10 +28,23 @@ use IEEE.STD_LOGIC_1164.ALL;
 library ieee_proposed;
 use ieee_proposed.fixed_pkg.all;
 
+use work.common_package.all;
+
 
 entity lowpass_layer is
+    generic (
+            NUM_BITS_PIXEL  : natural := 8; -- 24 total = R + G + B (8-bits each)  
+            NUM_BITS_FIXED_INT : integer := NUM_BITS_FIXED_INT_package;
+            NUM_BITS_FIXED_FRAC : integer := NUM_BITS_FIXED_FRAC_package;
+            NUM_BITS_ADDR   : natural := 8;           
+            MAX_IMG_WIDTH   : natural := 64;
+            MAX_IMG_HEIGHT   : natural := 64
+            );
     Port ( rst : in STD_LOGIC;
-           clk : in STD_LOGIC);
+           clk : in STD_LOGIC;
+           spike_inputs_in : in SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0);
+           filtered_outputs_out : out SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0)
+           );
 end lowpass_layer;
 
 
@@ -41,8 +54,8 @@ architecture Behavioral of lowpass_layer is
 component lowpass_cell
     generic (
             NUM_BITS_PIXEL  : natural := 8; -- 24 total = R + G + B (8-bits each)  
-            NUM_BITS_FIXED_INT : natural := 4;
-            NUM_BITS_FIXED_FRAC : natural := 11;
+            NUM_BITS_FIXED_INT : integer := 4;
+            NUM_BITS_FIXED_FRAC : integer := -11;
             NUM_BITS_ADDR   : natural := 8;           
             MAX_IMG_WIDTH   : natural := 64;
             MAX_IMG_HEIGHT   : natural := 64
@@ -50,20 +63,38 @@ component lowpass_cell
     Port ( rst : in STD_LOGIC;
            clk : in std_logic;
            lowpass_enable : in std_logic;
-           spike_input : in sfixed (2*NUM_BITS_PIXEL-1 downto -4);
-           filtered_output : out sfixed (2*NUM_BITS_PIXEL-1 downto -4)
+           spike_input : in sfixed (NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAC_package);
+           filtered_output : out sfixed (NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAC_package)
            );
 end component;       
 
+
+signal lowpass_enable : std_logic := '0';
+
 begin
 
-GEN_REG: 
-   for I in 0 to 3 generate
+GEN_LPC: 
+   for I in 0 to MAX_IMG_WIDTH*MAX_IMG_HEIGHT generate
       lowpass_cells : lowpass_cell port map
-        (DIN(I), 
-        CLK, 
-        RESET, DOUT(I));
-   end generate GEN_REG;
+        (rst => rst,
+        clk => clk,
+        lowpass_enable => lowpass_enable,
+        spike_input => spike_inputs_in(I), 
+        filtered_output => filtered_outputs_out(I)
+        );
+   end generate GEN_LPC;
 
+-- input process
+process(clk, rst) is
+begin
+    if rst = '1' then
+    lowpass_enable <= '0';
+    
+    end if;
+    if rising_edge(clk) then
+    end if;
+end process;
+
+-- output process
 
 end Behavioral;

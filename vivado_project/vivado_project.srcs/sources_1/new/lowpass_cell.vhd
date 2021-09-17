@@ -34,8 +34,8 @@ use ieee_proposed.fixed_pkg.all;
 entity lowpass_cell is
    generic (
             NUM_BITS_PIXEL  : natural := 8; -- 24 total = R + G + B (8-bits each)  
-            NUM_BITS_FIXED_INT : natural := 4;
-            NUM_BITS_FIXED_FRAC : natural := 11;
+            NUM_BITS_FIXED_INT : integer := 4; --integer part
+            NUM_BITS_FIXED_FRAC : integer := -11; --frac
             NUM_BITS_ADDR   : natural := 8;           
             MAX_IMG_WIDTH   : natural := 64;
             MAX_IMG_HEIGHT   : natural := 64
@@ -43,16 +43,16 @@ entity lowpass_cell is
     Port ( rst : in STD_LOGIC;
            clk : in std_logic;
            lowpass_enable : in std_logic;
-           spike_input : in sfixed (2*NUM_BITS_PIXEL-1 downto -4);
-           filtered_output : out sfixed (2*NUM_BITS_PIXEL-1 downto -4)
+           spike_input : in sfixed (NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
+           filtered_output : out sfixed (NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC)
            );
 end lowpass_cell;
 
 architecture Behavioral of lowpass_cell is
 
-signal prior_output : sfixed(2*NUM_BITS_PIXEL-1 downto -4);
-signal tau : sfixed(2*NUM_BITS_PIXEL-1 downto -4);
-signal intermediate_output : sfixed(2*NUM_BITS_PIXEL-1 downto -4);
+signal prior_output : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
+signal tau : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC) := to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC);
+signal intermediate_output : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
 
 begin
 
@@ -61,7 +61,7 @@ begin
     if rst = '1' then
         prior_output <= (others => '0');
         intermediate_output <= (others => '0');
-        tau <= to_sfixed(0.5, 2*NUM_BITS_PIXEL-1, -4); -- (value, high downto, low)
+        tau <= to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC); -- (value, high downto, low)
     end if;
     if rising_edge(clk) then
         if lowpass_enable = '1' then

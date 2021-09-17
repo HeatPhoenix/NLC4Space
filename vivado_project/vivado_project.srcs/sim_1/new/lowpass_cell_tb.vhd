@@ -28,6 +28,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 library ieee_proposed;
 use ieee_proposed.fixed_pkg.all;
 
+use work.common_package.all;
+
 entity lowpass_cell_tb is
 --  Port ( );
 end lowpass_cell_tb;
@@ -42,8 +44,8 @@ architecture Behavioral of lowpass_cell_tb is
 
     signal rst : std_logic := '0';
     signal clk : std_logic := '0';
-    signal input : sfixed (2*NUM_BITS_PIXEL-1 downto -4);
-    signal output : sfixed (2*NUM_BITS_PIXEL-1 downto -4);
+    signal input : sfixed (NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAc_package);
+    signal output : sfixed (NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAc_package);
     
     signal lowpass_enable : std_logic := '0';
 
@@ -80,11 +82,11 @@ begin
     wait until rising_edge(clk);
     rst <= '0';
     lowpass_enable <= '1';
-    input <= to_sfixed(1.5, 2*NUM_BITS_PIXEL-1, -4);
+    input <= to_sfixed(1.5, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package);
     wait for 20 ns;
-    input <= to_sfixed(1.75, 2*NUM_BITS_PIXEL-1, -4);
+    input <= to_sfixed(1.75, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package);
     wait for 20 ns;
-    input <= to_sfixed(0, 2*NUM_BITS_PIXEL-1, -4);
+    input <= to_sfixed(0, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package);
     wait for 100 ns;
     lowpass_enable <= '0';
 end process;

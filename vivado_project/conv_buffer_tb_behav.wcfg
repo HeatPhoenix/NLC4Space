@@ -3,81 +3,45 @@
    <wave_state>
    </wave_state>
    <db_ref_list>
-      <db_ref path="lowpass_cell_tb_behav.wdb" id="1">
+      <db_ref path="lowpass_layer_tb_behav.wdb" id="1">
          <top_modules>
-            <top_module name="lowpass_cell_tb" />
+            <top_module name="common_package" />
+            <top_module name="lowpass_layer_tb" />
          </top_modules>
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="0fs"></ZoomStartTime>
-      <ZoomEndTime time="302401fs"></ZoomEndTime>
-      <Cursor1Time time="1000000fs"></Cursor1Time>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="148.001 ns"></ZoomEndTime>
+      <Cursor1Time time="104.000 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
-      <NameColumnWidth column_width="216"></NameColumnWidth>
-      <ValueColumnWidth column_width="84"></ValueColumnWidth>
+      <NameColumnWidth column_width="200"></NameColumnWidth>
+      <ValueColumnWidth column_width="88"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="8" />
-   <wvobject fp_name="/lowpass_cell_tb/uut/rst" type="logic">
+   <WVObjectSize size="4" />
+   <wvobject fp_name="/lowpass_layer_tb/rst" type="logic">
       <obj_property name="ElementShortName">rst</obj_property>
       <obj_property name="ObjectShortName">rst</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/clk" type="logic">
+   <wvobject fp_name="/lowpass_layer_tb/clk" type="logic">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/lowpass_enable" type="logic">
-      <obj_property name="ElementShortName">lowpass_enable</obj_property>
-      <obj_property name="ObjectShortName">lowpass_enable</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/spike_input" type="array">
-      <obj_property name="ElementShortName">spike_input[15:-4]</obj_property>
-      <obj_property name="ObjectShortName">spike_input[15:-4]</obj_property>
+   <wvobject fp_name="/lowpass_layer_tb/spike_inputs_in[16]" type="array">
+      <obj_property name="ElementShortName">[16][4:-11]</obj_property>
+      <obj_property name="ObjectShortName">[16][4:-11]</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
+      <obj_property name="radix_fractionWidth">11</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/filtered_output" type="array">
-      <obj_property name="ElementShortName">filtered_output[15:-4]</obj_property>
-      <obj_property name="ObjectShortName">filtered_output[15:-4]</obj_property>
+   <wvobject fp_name="/lowpass_layer_tb/filtered_outputs_out[16]" type="array">
+      <obj_property name="ElementShortName">[16][4:-11]</obj_property>
+      <obj_property name="ObjectShortName">[16][4:-11]</obj_property>
       <obj_property name="Radix">REALRADIX</obj_property>
       <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/prior_output" type="array">
-      <obj_property name="ElementShortName">prior_output[15:-4]</obj_property>
-      <obj_property name="ObjectShortName">prior_output[15:-4]</obj_property>
-      <obj_property name="Radix">REALRADIX</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/tau" type="array">
-      <obj_property name="ElementShortName">tau[15:-4]</obj_property>
-      <obj_property name="ObjectShortName">tau[15:-4]</obj_property>
-      <obj_property name="Radix">REALRADIX</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
-      <obj_property name="radix_otherWidth">0</obj_property>
-   </wvobject>
-   <wvobject fp_name="/lowpass_cell_tb/uut/intermediate_output" type="array">
-      <obj_property name="ElementShortName">intermediate_output[15:-4]</obj_property>
-      <obj_property name="ObjectShortName">intermediate_output[15:-4]</obj_property>
-      <obj_property name="Radix">REALRADIX</obj_property>
-      <obj_property name="radix_realType">SIGNEDFIXEDPOINTRADIX</obj_property>
-      <obj_property name="radix_fractionWidth">4</obj_property>
+      <obj_property name="radix_fractionWidth">11</obj_property>
       <obj_property name="radix_otherWidth">0</obj_property>
    </wvobject>
 </wave_config>
