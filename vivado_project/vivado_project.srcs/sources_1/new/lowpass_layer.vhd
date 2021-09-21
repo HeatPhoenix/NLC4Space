@@ -42,6 +42,7 @@ entity lowpass_layer is
             );
     Port ( rst : in STD_LOGIC;
            clk : in STD_LOGIC;
+           lowpass_layer_enable : in STD_LOGIC;
            spike_inputs_in : in SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0);
            filtered_outputs_out : out SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0)
            );
@@ -73,12 +74,13 @@ signal lowpass_enable : std_logic := '0';
 
 begin
 
+
 GEN_LPC: 
    for I in 0 to MAX_IMG_WIDTH*MAX_IMG_HEIGHT generate
       lowpass_cells : lowpass_cell port map
         (rst => rst,
         clk => clk,
-        lowpass_enable => lowpass_enable,
+        lowpass_enable => lowpass_layer_enable,
         spike_input => spike_inputs_in(I), 
         filtered_output => filtered_outputs_out(I)
         );
@@ -87,11 +89,9 @@ GEN_LPC:
 -- input process
 process(clk, rst) is
 begin
-    if rst = '1' then
-    lowpass_enable <= '0';
+    if rst = '1' then 
+    elsif rising_edge(clk) then
     
-    end if;
-    if rising_edge(clk) then
     end if;
 end process;
 

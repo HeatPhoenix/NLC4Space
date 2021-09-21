@@ -61,9 +61,8 @@ begin
     if rst = '1' then
         prior_output <= (others => '0');
         intermediate_output <= (others => '0');
-        tau <= to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC); -- (value, high downto, low)
-    end if;
-    if rising_edge(clk) then
+        tau <= to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC); -- (value, high downto, low) 
+    elsif rising_edge(clk) then
         if lowpass_enable = '1' then
             intermediate_output <= resize(prior_output + tau * (spike_input - prior_output), intermediate_output'high, intermediate_output'low);
             -- can we do something clever with shifts here? is there a range for Tau?

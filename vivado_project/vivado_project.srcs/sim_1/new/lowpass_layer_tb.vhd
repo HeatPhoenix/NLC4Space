@@ -8,13 +8,13 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: Test bench for the lowpass layer
 -- 
 -- Dependencies: 
 -- 
 -- Revision:
 -- Revision 0.01 - File Created
--- Additional Comments:
+-- Additional Comments: Work as intended
 -- 
 ----------------------------------------------------------------------------------
 
@@ -52,6 +52,7 @@ architecture tb of lowpass_layer_tb is
     
     signal rst                  : std_logic;
     signal clk                  : std_logic;
+    signal lowpass_layer_enable : std_logic;
     signal spike_inputs_in      : sfixed_vector (max_img_width*max_img_height downto 0);
     signal filtered_outputs_out : sfixed_vector (max_img_width*max_img_height downto 0);
 
@@ -71,6 +72,7 @@ begin
             )
     port map (rst                  => rst,
               clk                  => clk,
+              lowpass_layer_enable => lowpass_layer_enable,
               spike_inputs_in      => spike_inputs_in,
               filtered_outputs_out => filtered_outputs_out);
 
@@ -86,14 +88,18 @@ begin
         spike_inputs_in <= (others => to_sfixed(0, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package));
         -- EDIT: Check that rst is really your reset signal
         rst <= '1';
+        
         wait for 10 ns;
         rst <= '0';
+        lowpass_layer_enable <= '1';
         wait for 10 ns;
         spike_inputs_in <= (others => to_sfixed(1.5, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package));
         wait for 20 ns;
         spike_inputs_in <= (others => to_sfixed(1.75, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package));
         wait for 20 ns;
         spike_inputs_in <= (others => to_sfixed(0, NUM_BITS_FIXED_INT_package, NUM_BITS_FIXED_FRAC_package));
+        wait for 20 ns;
+        rst <= '1';
 
         -- EDIT Add stimuli here
         wait for 100 * TbPeriod;

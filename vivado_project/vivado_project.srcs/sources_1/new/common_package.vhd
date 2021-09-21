@@ -8,7 +8,7 @@
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
--- Description: 
+-- Description: Contains convenience procedures, types and so on.
 -- 
 -- Dependencies: 
 -- 
@@ -31,5 +31,7 @@ constant NUM_BITS_FIXED_INT_package : integer := 4;
 constant NUM_BITS_FIXED_FRAC_package : integer := -11;
 
 type SFIXED_VECTOR is array(INTEGER range <>) of SFIXED(NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAC_package);
+type SFIXED_VECTOR_AVG_SET is array(3 downto 0) of  SFIXED(NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAC_package);
+type SFIXED_VECTOR_AVG_SET_VECTOR is array(511 downto 0) of SFIXED_VECTOR_AVG_SET;
 
 end common_package;
