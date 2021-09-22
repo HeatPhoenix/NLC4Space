@@ -16,15 +16,18 @@
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments: MIT Licensed
--- N.B.: Still lots of work to be done w.r.t. the contents of this stuff, have to
--- scrap stuff that's unnecessary for our purposes and make everything use
--- sfixed among other things
+-- N.B.: Demo of a number of neurons, tested and working
 ----------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use IEEE.math_real.all;
+
+library ieee_proposed;
+use ieee_proposed.fixed_pkg.all;
+
+use work.common_package.all;
 
 entity spiking_nn is
 	port(

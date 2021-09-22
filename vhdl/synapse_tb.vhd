@@ -29,6 +29,11 @@ use IEEE.math_real.all;
 entity synapse_tb is
 end entity synapse_tb;
 
+library ieee_proposed;
+use ieee_proposed.fixed_pkg.all;
+
+use work.common_package.all;
+
 architecture tb_vhdl of synapse_tb is
 
 	component adaptive_synapse is
@@ -38,7 +43,7 @@ architecture tb_vhdl of synapse_tb is
 			pre_spike : in std_logic;
 			post_spike : in std_logic;
 		
-			inje_current : out real
+			inje_current : out sfixed (NUM_BITS_FIXED_INT_package downto NUM_BITS_FIXED_FRAC_package)
 			);	
 	end component;
 
@@ -49,7 +54,7 @@ architecture tb_vhdl of synapse_tb is
 	signal pre_spike : std_logic := '0';
 	signal post_spike : std_logic := '0';
 		
-	signal inje_current : real := 0.0;
+	signal inje_current : SFIXED_COMMON_SIZE := SFIXED_COMMON_ZERO;
 
 	--signal temp_counter_pre : unsigned (4 downto 0) := "00000";
 	--signal temp_counter_post : unsigned (5 downto 0) := "111110";

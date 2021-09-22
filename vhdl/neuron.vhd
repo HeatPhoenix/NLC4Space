@@ -5,6 +5,11 @@ use IEEE.math_real.all;
 use IEEE.STD_LOGIC_UNSIGNED;
 --use IEEE.Std_logic_arith.all;
 
+library ieee_proposed;
+use ieee_proposed.fixed_pkg.all;
+
+use work.common_package.all;
+
 entity neuron is
 	generic (
 		address_0 : unsigned(5 downto 0):= "000000";
@@ -37,17 +42,17 @@ architecture behavioral_vhdl of neuron is
 			pre_spike : in std_logic;
 			post_spike : in std_logic;
 		
-			inje_current : out real
+			inje_current : out SFIXED_COMMON_SIZE
 			);	
 	end component;
 
-	constant SPIKE_THRESHOLD : real := 1.2;
+	constant SPIKE_THRESHOLD : SFIXED_COMMON_SIZE := to_sfixed_common(1.2);
 
 	signal pre_spike_vector : unsigned(1 downto 0) := "00";
 
-	signal voltage_mem : real := 0.0;
-	signal inje_current_0 : real := 0.0;
-	signal inje_current_1 : real := 0.0;
+	signal voltage_mem : SFIXED_COMMON_SIZE := (others => '0');
+	signal inje_current_0 : SFIXED_COMMON_SIZE := (others => '0');
+	signal inje_current_1 : SFIXED_COMMON_SIZE := (others => '0');
 	signal post_spike_inner : std_logic := '0';
 
 	begin
@@ -96,19 +101,19 @@ architecture behavioral_vhdl of neuron is
 		begin
 			if reset_in = '1' then
 				post_spike <= '0';
-				voltage_mem <= 0.0;
+				voltage_mem <= to_sfixed_common(0.0);
 				address_out <= "000000";
 			elsif rising_edge(clk_in) then
 				if (voltage_mem + inje_current_0 + inje_current_1) >= SPIKE_THRESHOLD then
 					post_spike <= '1';
 					post_spike_inner <= '1';
 					address_out <= post_spike_address;
-					voltage_mem <= (voltage_mem + inje_current_0 + inje_current_1) * 0.1; --mod SPIKE_THRESHOLD;
+					voltage_mem <= resize_common((voltage_mem + inje_current_0 + inje_current_1) * 0.1); --mod SPIKE_THRESHOLD;
 				else
 					post_spike <= '0';
 					post_spike_inner <= '0';
 					address_out <= "000000";
-					voltage_mem <= voltage_mem + inje_current_0 + inje_current_1;
+					voltage_mem <= resize_common(voltage_mem + inje_current_0 + inje_current_1);
 				end if;
 			end if;
 		end process post_spike_gen;
