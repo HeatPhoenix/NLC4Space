@@ -37,7 +37,7 @@ entity pixbuf is
         );
 end pixbuf;
 
-architecture Behavioral of pixbuf is
+architecture Behavioral of pixbuf is 
 
     type lineBuffer_t is array (0 to MAX_IMG_WIDTH-1) of std_logic_vector(2*NUM_BITS_PIXEL-1 downto 0);
 
