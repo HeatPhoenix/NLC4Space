@@ -180,15 +180,15 @@ begin
 			
             -- we can calculate the first row of the filter matrix immediately
             if (pix_valid_in = '1') then
-                y00 <= resize(coeff(0) * signed(pix_data_in),y00'length);
+                y00 <= resize(coeff(0) * signed(pix_data_in),y00'length); --P(0,0)*c0
             end if;
 			
             if (pix_valid_pipeline(0) = '1') then
-                y01 <= resize(coeff(1) * signed(pix_data_in) + y00,y01'length);
+                y01 <= resize(coeff(1) * signed(pix_data_in) + y00,y01'length); --P(0,1)*c1
             end if;
 
             if (pix_valid_pipeline(1) = '1') then
-                y02 <= resize(coeff(2) * signed(pix_data_in) + y01, y02'length);
+                y02 <= resize(coeff(2) * signed(pix_data_in) + y01, y02'length); --P(0,2)*c2
 				if (image_done = '1') then
 					y02 <= (others=>'0');
 				end if;
@@ -197,26 +197,26 @@ begin
             -- delay until we get valid data from linebuffers is exactly 2 cycles. we can calculate the second and third row of the filter matrix
             if (pix_valid_pipeline(1) = '1') then
                 -- now we can calculate y10 and y20
-                y10 <= resize(coeff(3) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + signed(y1_out), NUM_BITS_INTERNAL);
-                y20 <= resize(coeff(6) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + signed(y2_out), NUM_BITS_INTERNAL);
+                y10 <= resize(coeff(3) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + signed(y1_out), NUM_BITS_INTERNAL); --P(1,0)*c3
+                y20 <= resize(coeff(6) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + signed(y2_out), NUM_BITS_INTERNAL); --P(2,0)*c6
             end if;
 			
             if (pix_valid_pipeline(2) = '1') then
                 -- now we can calculate y11 and y21
-                y11 <= resize(coeff(4) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y10, NUM_BITS_INTERNAL);
-                y21 <= resize(coeff(7) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y20, NUM_BITS_INTERNAL);
+                y11 <= resize(coeff(4) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y10, NUM_BITS_INTERNAL); --P(1,1)*c4 
+                y21 <= resize(coeff(7) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y20, NUM_BITS_INTERNAL); --P(2,1)*c7 
 				
             end if;
 
             if (pix_valid_pipeline(3) = '1') then
                 -- now we can calculate y11 and y21
-                y12 <= resize(coeff(5) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y11, NUM_BITS_INTERNAL);
+                y12 <= resize(coeff(5) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y11, NUM_BITS_INTERNAL); --P(1,2)*c5 
 				if (unsigned(pix_y_pipeline(4*NUM_BITS_ADDR-1 downto 3*NUM_BITS_ADDR)) > unsigned(img_height)) then
 					y12 <= (others=>'0');
 				end if;                
 				-- output data if we have to
                 if (unsigned(pix_y_pipeline(4*NUM_BITS_ADDR-1 downto 3*NUM_BITS_ADDR)) > 1 and unsigned(pix_x_pipeline(4*NUM_BITS_ADDR-1 downto 3*NUM_BITS_ADDR)) < unsigned(img_width)) then
-                    pix_data_out_reg <= std_logic_vector(resize(coeff(8) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y21, pix_data_out_reg'length));
+                    pix_data_out_reg <= std_logic_vector(resize(coeff(8) * signed(pix_in_pipeline(2*NUM_BITS_PIXEL-1 downto 1*NUM_BITS_PIXEL)) + y21, pix_data_out_reg'length)); --P(2,2)*c8 
                     pix_valid_out_reg <= '1';
                 end if;
             end if;

@@ -44,7 +44,8 @@ entity lowpass_layer is
            clk : in STD_LOGIC;
            lowpass_layer_enable : in STD_LOGIC;
            spike_inputs_in : in SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0);
-           filtered_outputs_out : out SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0)
+           filtered_outputs_out : out SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0);
+           filtered_postmult_out : out SFIXED_VECTOR(MAX_IMG_WIDTH*MAX_IMG_HEIGHT downto 0)
            );
 end lowpass_layer;
 
@@ -71,6 +72,8 @@ end component;
 
 
 signal lowpass_enable : std_logic := '0';
+-- log2(MAX_IMG_WIDTH * MAX_IMG_HEIGHT - 1)
+signal current_cell_index : std_logic_vector(12 downto 0);
 
 begin
 
@@ -90,8 +93,12 @@ GEN_LPC:
 process(clk, rst) is
 begin
     if rst = '1' then 
+        current_cell_index <= (others => '0');
+        lowpass_enable <= '0';
     elsif rising_edge(clk) then
-    
+        if(lowpass_enable = '1') then
+            
+        end if;
     end if;
 end process;
 

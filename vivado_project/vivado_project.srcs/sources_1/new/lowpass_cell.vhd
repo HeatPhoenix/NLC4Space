@@ -31,6 +31,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 library ieee_proposed;
 use ieee_proposed.fixed_pkg.all;
 
+use work.common_package.all;
+
 entity lowpass_cell is
    generic (
             NUM_BITS_PIXEL  : natural := 8; -- 24 total = R + G + B (8-bits each)  
@@ -44,7 +46,10 @@ entity lowpass_cell is
            clk : in std_logic;
            lowpass_enable : in std_logic;
            spike_input : in sfixed (NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
-           filtered_output : out sfixed (NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC)
+           filtered_output : out sfixed (NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
+           premult_a : out SFIXED_COMMON_SIZE;
+           premult_b : out SFIXED_COMMON_SIZE;
+           postmult_result : in SFIXED_COMMON_SIZE
            );
 end lowpass_cell;
 
@@ -54,7 +59,12 @@ signal prior_output : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
 signal tau : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC) := to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC);
 signal intermediate_output : sfixed(NUM_BITS_FIXED_INT downto NUM_BITS_FIXED_FRAC);
 
+constant threshold : SFIXED_COMMON_SIZE := to_sfixed_common(0.0); --threshold at zero currently, but in the future could be higher
+
 begin
+
+intermediate_output <=  postmult_result when postmult_result > threshold else
+                        to_sfixed_common(0.0);
 
 process(clk, rst) is
 begin
@@ -64,8 +74,11 @@ begin
         tau <= to_sfixed(0.5, NUM_BITS_FIXED_INT, NUM_BITS_FIXED_FRAC); -- (value, high downto, low) 
     elsif rising_edge(clk) then
         if lowpass_enable = '1' then
-            intermediate_output <= resize(prior_output + tau * (spike_input - prior_output), intermediate_output'high, intermediate_output'low);
+            --intermediate_output <= resize(prior_output + tau * (spike_input - prior_output), intermediate_output'high, intermediate_output'low);
+            premult_a <= resize(prior_output + tau, intermediate_output'high, intermediate_output'low);
+            premult_a <= resize(spike_input - prior_output, intermediate_output'high, intermediate_output'low);
             -- can we do something clever with shifts here? is there a range for Tau?
+            -- yes, we can, if the tau is appropriate for this method
             filtered_output <= intermediate_output;
             prior_output <= intermediate_output;
         end if;
